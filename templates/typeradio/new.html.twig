@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Typeradio{% endblock %}
+
+{% block body %}
+    <h1>Create new Typeradio</h1>
+
+    {{ include('typeradio/_form.html.twig') }}
+
+    <a href="{{ path('typeradio_index') }}">back to list</a>
+{% endblock %}

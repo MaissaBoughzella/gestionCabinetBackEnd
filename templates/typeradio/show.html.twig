@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Typeradio{% endblock %}
+
+{% block body %}
+    <h1>Typeradio</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ typeradio.id }}</td>
+            </tr>
+            <tr>
+                <th>Radio</th>
+                <td>{{ typeradio.radio }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('typeradio_index') }}">back to list</a>
+
+    <a href="{{ path('typeradio_edit', {'id': typeradio.id}) }}">edit</a>
+
+    {{ include('typeradio/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Typeanalyse{% endblock %}
+
+{% block body %}
+    <h1>Create new Typeanalyse</h1>
+
+    {{ include('typeanalyse/_form.html.twig') }}
+
+    <a href="{{ path('typeanalyse_index') }}">back to list</a>
+{% endblock %}

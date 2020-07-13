@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ordonnance index{% endblock %}
+
+{% block body %}
+    <h1>Ordonnance index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ordonnance in ordonnances %}
+            <tr>
+                <td>{{ ordonnance.id }}</td>
+                <td>{{ ordonnance.date ? ordonnance.date|date('Y-m-d') : '' }}</td>
+                <td>{{ ordonnance.heure ? ordonnance.heure|date('H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('ordonnance_show', {'id': ordonnance.id}) }}">show</a>
+                    <a href="{{ path('ordonnance_edit', {'id': ordonnance.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('ordonnance_new') }}">Create new</a>
+{% endblock %}
