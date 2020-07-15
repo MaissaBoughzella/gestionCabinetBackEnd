@@ -10,17 +10,21 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="patient")
  * @ORM\Entity
  */
-class Patient extends User
-{
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
+class Patient 
+{  
+     /**
+    * @ORM\Id()
+    * @ORM\GeneratedValue()
+    * @ORM\Column(type="integer")
+    */
+   private $id;
+   /**
+    * @ORM\OneToOne(targetEntity="App\Entity\User",cascade={"persist", "remove"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id",onDelete="CASCADE")
+     * })
+    */
+    protected $user;
     /**
      * @var \DateTime|null
      *
@@ -64,5 +68,16 @@ class Patient extends User
         return $this;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 
 }

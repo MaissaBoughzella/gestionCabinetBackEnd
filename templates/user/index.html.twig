@@ -10,7 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Email</th>
-                <th>Motdepasse</th>
+                <th>Password</th>
                 <th>Adresse</th>
                 <th>Genre</th>
                 <th>Langue</th>
@@ -18,7 +18,6 @@
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Telephone</th>
-                <th>Role</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -35,7 +34,6 @@
                 <td>{{ user.nom }}</td>
                 <td>{{ user.prenom }}</td>
                 <td>{{ user.telephone }}</td>
-                <td>{{ user.role.role }}</td>
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>

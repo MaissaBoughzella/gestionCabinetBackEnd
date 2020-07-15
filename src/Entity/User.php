@@ -7,16 +7,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 
-/**
+
+ /**
  * User
  * @ApiResource()
- * @ORM\MappedSuperclass
+ * @ORM\Entity 
  * @ORM\Table(name="user", indexes={@ORM\Index(name="fk_User_Role1_idx", columns={"Role_id"})})
- * @ORM\Entity
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
- * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface
 {
@@ -26,39 +26,20 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-    /**
-     * @ORM\OneToOne(targetEntity="Medecin")
-     * @ORM\JoinColumn(name="medecin_id", referencedColumnName="id")
-     */
-    protected $medecin;
-    
-      /**
-     * @ORM\OneToOne(targetEntity="Patient")
-     * @ORM\JoinColumn(name="patient_id", referencedColumnName="id")
-     */
-    protected $patient;
-
-     /**
-     * @ORM\OneToOne(targetEntity="Secretaire")
-     * @ORM\JoinColumn(name="secretaire_id", referencedColumnName="id")
-     */
-    protected $secretaire;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * 
      */
     private $password;
+
 
     /**
      * @var string|null
@@ -88,12 +69,13 @@ class User implements UserInterface
     private $createTime = 'CURRENT_TIMESTAMP';
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Role", inversedBy="users")
+     * @var Role
+     * @ORM\ManyToOne(targetEntity="App\Entity\Role",cascade={"persist", "remove"})
       * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Role_id", referencedColumnName="id")
+     *  @ORM\JoinColumn(name="Role_id", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
-    private $role;
+    public $role;
 
     /**
      * @var string|null
@@ -151,19 +133,15 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public function getRoles(): ?Role
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        $role = $this->role;
+        return $role;
     }
-
-    public function setRoles(array $roles): self
+    
+    public function setRoles(?Role $role): self
     {
-        $this->roles = $roles;
-
+        $this->role = $role;
         return $this;
     }
 
@@ -177,7 +155,7 @@ class User implements UserInterface
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = md5($password);
 
         return $this;
     }
@@ -230,16 +208,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRole(): ?Role
-    {
-        return $this->role;
-    }
-
-    public function setRole(?Role $role): self
-    {
-        $this->role = $role;
-        return $this;
-    }
 
 
     public function getNom(): ?string
@@ -278,43 +246,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getMedecin(): ?Medecin
-    {
-        return $this->medecin;
-    }
-
-    public function setMedecin(?Medecin $medecin): self
-    {
-        $this->medecin = $medecin;
-
-        return $this;
-    }
-
-    public function getPatient(): ?Patient
-    {
-        return $this->patient;
-    }
-
-    public function setPatient(?Patient $patient): self
-    {
-        $this->patient = $patient;
-
-        return $this;
-    }
-
-    public function getSecretaire(): ?Secretaire
-    {
-        return $this->secretaire;
-    }
-
-    public function setSecretaire(?Secretaire $secretaire): self
-    {
-        $this->secretaire = $secretaire;
-
-        return $this;
-    }
-
-
     /**
      * @see UserInterface
      */
@@ -323,12 +254,31 @@ class User implements UserInterface
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
+    
     /**
      * @see UserInterface
      */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        //$this->plainPassword = null;
     }
+
+    public function getRole(): ?Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(?Role $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    public function __toString() 
+    {
+        return (string) $this->id; 
+    }
+
 }

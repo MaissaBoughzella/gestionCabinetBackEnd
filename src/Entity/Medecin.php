@@ -10,21 +10,28 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="medecin", indexes={@ORM\Index(name="fk_Medecin_Specialite1_idx", columns={"Specialite_id"})})
  * @ORM\Entity
  */
-class Medecin extends User
+class Medecin 
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+     /**
+    * @ORM\Id()
+    * @ORM\GeneratedValue()
+    * @ORM\Column(type="integer")
+    */
     private $id;
+
+    /**
+     * @var \User
+     * @ORM\OneToOne(targetEntity="App\Entity\User",cascade={"persist", "remove"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id",onDelete="CASCADE")     
+     * })
+    */
+    protected $user;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="photo", type="blob", length=65535, nullable=true)
+     * @ORM\Column(name="photo", type="string", nullable=true)
      */
     private $photo;
 
@@ -52,9 +59,9 @@ class Medecin extends User
     /**
      * @var \Specialite
      *
-     * @ORM\ManyToOne(targetEntity="Specialite")
+     * @ORM\ManyToOne(targetEntity="Specialite",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Specialite_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="Specialite_id", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
     private $specialite;
@@ -124,5 +131,17 @@ class Medecin extends User
         return $this;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+  
 
 }

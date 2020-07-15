@@ -45,9 +45,9 @@ class Rdv
     /**
      * @var \Medecin
      *
-     * @ORM\ManyToOne(targetEntity="Medecin")
+     * @ORM\ManyToOne(targetEntity="Medecin",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Medecin_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="Medecin_id", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
     private $medecin;
@@ -55,9 +55,9 @@ class Rdv
     /**
      * @var \Patient
      *
-     * @ORM\ManyToOne(targetEntity="Patient")
+     * @ORM\ManyToOne(targetEntity="Patient",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Patient_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="Patient_id", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
     private $patient;

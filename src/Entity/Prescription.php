@@ -44,9 +44,9 @@ class Prescription
 
     /**
      * @var \Ordonnance
-     * @ORM\ManyToOne(targetEntity="Ordonnance")
+     * @ORM\ManyToOne(targetEntity="Ordonnance",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="ordonnance_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="ordonnance_id", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
     private $ordonnance;
@@ -54,9 +54,9 @@ class Prescription
     /**
      * @var \Medicament
      *
-     * @ORM\ManyToOne(targetEntity="Medicament")
+     * @ORM\ManyToOne(targetEntity="Medicament",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="medicament_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="medicament_id", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
     private $medicament;

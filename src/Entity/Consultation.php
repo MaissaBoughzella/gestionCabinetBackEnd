@@ -38,9 +38,9 @@ class Consultation
     /**
      * @var \Ordonnance
      *
-     * @ORM\ManyToOne(targetEntity="Ordonnance")
+     * @ORM\ManyToOne(targetEntity="Ordonnance",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_ordonnance", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_ordonnance", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
     private $idOrdonnance;
