@@ -2,33 +2,43 @@
 
 namespace App\Entity;
 
+use App\Entity\Role;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\SerializedName;
-
 
 
  /**
  * User
- * @ApiResource()
- * @ORM\Entity 
- * @ORM\Table(name="user", indexes={@ORM\Index(name="fk_User_Role1_idx", columns={"Role_id"})})
+ * @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_email"={
+ *          "method"="GET",
+ *          "path"="/users/verify/{email}/{pwd}",
+ *          "controller"="App\Controller\EmailsController::class"
+ *      },
+ *   },
+ * )
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(name="user")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * })
      */
     private $email;
 
@@ -36,7 +46,6 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * 
      */
     private $password;
 
@@ -44,7 +53,7 @@ class User implements UserInterface
     /**
      * @var string|null
      *
-     * @ORM\Column(name="adresse", type="string", length=255, nullable=true)
+     * @ORM\Column(name="adresse", type="string", length=255, nullable=true)  
      */
     private $adresse;
 
@@ -72,15 +81,16 @@ class User implements UserInterface
      * @var Role
      * @ORM\ManyToOne(targetEntity="App\Entity\Role",cascade={"persist", "remove"})
       * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="Role_id", referencedColumnName="id",onDelete="CASCADE")
+     *  @ORM\JoinColumn(name="role_id", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
-    public $role;
+    public $roles;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="nom", type="string", length=45, nullable=true)
+     * 
      */
     private $nom;
 
@@ -130,18 +140,16 @@ class User implements UserInterface
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
+   
     public function getRoles(): ?Role
     {
-        $role = $this->role;
-        return $role;
+        $roles = $this->roles;
+        return $roles;
     }
     
-    public function setRoles(?Role $role): self
+    public function setRoles(?Role $roles): self
     {
-        $this->role = $role;
+        $this->roles = $roles;
         return $this;
     }
 
@@ -155,7 +163,7 @@ class User implements UserInterface
 
     public function setPassword(string $password): self
     {
-        $this->password = md5($password);
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
 
         return $this;
     }
@@ -264,21 +272,11 @@ class User implements UserInterface
         //$this->plainPassword = null;
     }
 
-    public function getRole(): ?Role
-    {
-        return $this->role;
-    }
-
-    public function setRole(?Role $role): self
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
     public function __toString() 
     {
         return (string) $this->id; 
     }
 
+
+ 
 }

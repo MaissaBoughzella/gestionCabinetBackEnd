@@ -6,8 +6,17 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Role
- * @ApiResource()
- * @ORM\Table(name="role")
+ * @ApiResource(
+ * collectionOperations={
+ * "get"={},
+ * "post"={},
+ * "GetRoleName"={
+ *      "method"="GET",
+ *      "path"="/roles/name",
+ *      "controller"="App\Controller\RoleController::class"
+ * }
+ * })
+ * @ORM\Entity(repositoryClass="App\Repository\RoleRepository")
  * @ORM\Entity
  */
 class Role
@@ -18,6 +27,7 @@ class Role
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+
      */
     private $id;
 

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="secretaire",indexes={@ORM\Index(name="fk_sec_med_idx", columns={"medecin_id"})})
  * @ORM\Entity
  */
-class Secretaire extends User
+class Secretaire
 {
     /**
      * @ORM\Id()
