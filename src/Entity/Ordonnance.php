@@ -52,6 +52,14 @@ class Ordonnance
         return $this;
     }
 
+    /**
+    * @ORM\OneToOne(targetEntity="App\Entity\Consultation",cascade={"persist", "remove"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="consultation_id", referencedColumnName="id",onDelete="CASCADE")
+     * })
+    */
+    protected $consultation;
+
     public function getHeure(): ?\DateTimeInterface
     {
         return $this->heure;
@@ -66,6 +74,18 @@ class Ordonnance
     public function __toString() 
     {
         return (string) $this->id; 
+    }
+
+    public function getConsultation(): ?Consultation
+    {
+        return $this->consultation;
+    }
+
+    public function setConsultation(?Consultation $consultation): self
+    {
+        $this->consultation = $consultation;
+
+        return $this;
     }
     
 

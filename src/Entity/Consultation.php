@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Consultation
  * @ApiResource()
- * @ORM\Table(name="consultation", indexes={@ORM\Index(name="fk_Consultation_Ordonnance1_idx", columns={"id_ordonnance"})})
+ * @ORM\Table(name="consultation")
  * @ORM\Entity
  */
 class Consultation
@@ -35,15 +35,14 @@ class Consultation
      */
     private $prix;
 
-    /**
-     * @var \Ordonnance
-     *
-     * @ORM\ManyToOne(targetEntity="Ordonnance",cascade={"persist", "remove"})
+     /**
+    * @ORM\OneToOne(targetEntity="App\Entity\Rdv",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_ordonnance", referencedColumnName="id",onDelete="CASCADE")
+     * @ORM\JoinColumn(name="rdv_id", referencedColumnName="id",onDelete="CASCADE")
      * })
-     */
-    private $idOrdonnance;
+    */
+    protected $rdv;
+
 
     public function getId(): ?int
     {
@@ -74,21 +73,21 @@ class Consultation
         return $this;
     }
 
-    public function getIdOrdonnance(): ?Ordonnance
-    {
-        return $this->idOrdonnance;
-    }
-
-    public function setIdOrdonnance(?Ordonnance $idOrdonnance): self
-    {
-        $this->idOrdonnance = $idOrdonnance;
-
-        return $this;
-    }
-
     public function __toString() 
     {
         return (string) $this->id; 
+    }
+
+    public function getRdv(): ?Rdv
+    {
+        return $this->rdv;
+    }
+
+    public function setRdv(?Rdv $rdv): self
+    {
+        $this->rdv = $rdv;
+
+        return $this;
     }
     
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Rdv
  * @ApiResource()
- * @ORM\Table(name="rdv", uniqueConstraints={@ORM\UniqueConstraint(name="patient_med_unique", columns={"Patient_id", "Medecin_id"})}, indexes={@ORM\Index(name="IDX_10C31F864F31A84", columns={"Medecin_id"}), @ORM\Index(name="IDX_10C31F866B899279", columns={"Patient_id"})})
+ * @ORM\Table(name="rdv")
  * @ORM\Entity
  */
 class Rdv
@@ -35,19 +35,13 @@ class Rdv
      */
     private $heure;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_consultation", type="integer", nullable=false)
-     */
-    private $idConsultation;
 
     /**
      * @var \Medecin
      *
-     * @ORM\ManyToOne(targetEntity="Medecin",cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Medecin")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Medecin_id", referencedColumnName="id",onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="Medecin_id", referencedColumnName="id")
      * })
      */
     private $medecin;
@@ -55,9 +49,9 @@ class Rdv
     /**
      * @var \Patient
      *
-     * @ORM\ManyToOne(targetEntity="Patient",cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Patient")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Patient_id", referencedColumnName="id",onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="Patient_id", referencedColumnName="id")
      * })
      */
     private $patient;
@@ -91,17 +85,6 @@ class Rdv
         return $this;
     }
 
-    public function getIdConsultation(): ?int
-    {
-        return $this->idConsultation;
-    }
-
-    public function setIdConsultation(int $idConsultation): self
-    {
-        $this->idConsultation = $idConsultation;
-
-        return $this;
-    }
 
     public function getMedecin(): ?Medecin
     {

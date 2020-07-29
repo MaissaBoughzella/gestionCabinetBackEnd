@@ -7,9 +7,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Secretaire
- * @ApiResource()
- * @ORM\Table(name="secretaire",indexes={@ORM\Index(name="fk_sec_med_idx", columns={"medecin_id"})})
- * @ORM\Entity
+ * @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_userId"={
+ *          "method"="GET",
+ *          "path"="/secretaires/getByUserId/{user_id}",
+ *          "controller"="App\Controller\SecretaireController::class"
+ *      },
+ *   },
+ * )
+ * @ORM\Table(name="secretaire")
+ *  @ORM\Entity(repositoryClass="App\Repository\SecretaireRepository")
  */
 class Secretaire
 {
@@ -28,28 +38,23 @@ class Secretaire
     */
     protected $user;
 
+   
+
     /**
-     * @var int
-     * @ORM\Column(name="medecin_id", type="integer", nullable=false)
+     * @var Medecin
+     * @ORM\ManyToOne(targetEntity="App\Entity\Medecin",cascade={"persist", "remove"})
+      * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="medecin_id", referencedColumnName="id",onDelete="CASCADE")
+     * })
      */
-    private $medecinId;
+    public $medecinId;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
-    public function getMedecinId(): ?int
-    {
-        return $this->medecinId;
-    }
-
-    public function setMedecinId(int $medecinId): self
-    {
-        $this->medecinId = $medecinId;
-
-        return $this;
-    }
-
+    
     public function getUser(): ?User
     {
         return $this->user;
@@ -58,6 +63,18 @@ class Secretaire
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getMedecinId(): ?Medecin
+    {
+        return $this->medecinId;
+    }
+
+    public function setMedecinId(?Medecin $medecinId): self
+    {
+        $this->medecinId = $medecinId;
 
         return $this;
     }
