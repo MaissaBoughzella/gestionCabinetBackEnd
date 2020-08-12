@@ -21,6 +21,11 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *          "path"="/users/verify/{email}/{pwd}",
  *          "controller"="App\Controller\EmailsController::class"
  *      },
+ *       "get_by_role"={
+ *          "method"="GET",
+ *          "path"="/users/byRole/{role}",
+ *          "controller"="App\Controller\UserByRoleController::class"
+ *      },
  *   },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -79,9 +84,9 @@ class User implements UserInterface
 
     /**
      * @var Role
-     * @ORM\ManyToOne(targetEntity="App\Entity\Role",cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Role")
       * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="role_id", referencedColumnName="id",onDelete="CASCADE")
+     *  @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      * })
      */
     public $roles;

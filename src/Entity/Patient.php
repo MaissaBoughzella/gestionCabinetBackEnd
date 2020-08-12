@@ -3,12 +3,23 @@
 namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 /**
  * Patient
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_user"={
+ *          "method"="GET",
+ *          "path"="/patients/getByUserId/{user}",
+ *          "controller"="App\Controller\PatientController::class"
+ *      },
+ *   },
+ * )
  * @ORM\Table(name="patient")
- * @ORM\Entity
+ *  @ORM\Entity(repositoryClass="App\Repository\PatientRepository")
  */
 class Patient 
 {  
@@ -32,12 +43,23 @@ class Patient
      */
     private $dateNaiss;
 
+
     /**
      * @var string|null
      *
      * @ORM\Column(name="profession", type="string", length=255, nullable=true)
      */
     private $profession;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rdv::class, mappedBy="patient")
+     */
+    private $rdvs;
+
+    public function __construct()
+    {        
+        $this->rdvs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -79,5 +101,38 @@ class Patient
 
         return $this;
     }
+
+    /**
+     * @return Collection|Rdv[]
+     */
+    public function getRdvs(): Collection
+    {
+        return $this->rdvs;
+    }
+
+    public function addRdv(Rdv $rdv): self
+    {
+        if (!$this->rdvs->contains($rdv)) {
+            $this->rdvs[] = $rdv;
+            $rdv->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRdv(Rdv $rdv): self
+    {
+        if ($this->rdvs->contains($rdv)) {
+            $this->rdvs->removeElement($rdv);
+            // set the owning side to null (unless already changed)
+            if ($rdv->getPatient() === $this) {
+                $rdv->setPatient(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 }

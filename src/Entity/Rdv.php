@@ -3,7 +3,8 @@
 namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 /**
  * Rdv
  * @ApiResource()
@@ -35,6 +36,12 @@ class Rdv
      */
     private $heure;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="etat", type="string", options={"default" : "Non consulté"})
+     */
+    private $etat;
 
     /**
      * @var \Medecin
@@ -47,18 +54,19 @@ class Rdv
     private $medecin;
 
     /**
-     * @var \Patient
-     *
-     * @ORM\ManyToOne(targetEntity="Patient")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Patient_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity=Patient::class, inversedBy="rdvs")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $patient;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __construct() {
+
+        $this->etat = "Non consulté";
     }
 
     public function getDate(): ?\DateTimeInterface
@@ -94,6 +102,18 @@ class Rdv
     public function setMedecin(?Medecin $medecin): self
     {
         $this->medecin = $medecin;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

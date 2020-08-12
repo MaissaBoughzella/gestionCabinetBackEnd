@@ -6,9 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Prescription
- * @ApiResource()
+* @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_ord"={
+ *          "method"="GET",
+ *          "path"="/prescriptions/getByOrdId/{ord}",
+ *          "controller"="App\Controller\PrescriptionController::class"
+ *      },
+ *   },
+ * )
  * @ORM\Table(name="prescription", uniqueConstraints={@ORM\UniqueConstraint(name="ord_med_unique", columns={"ordonnance_id", "medicament_id"})}, indexes={@ORM\Index(name="IDX_1FBFB8D92BF23B8F", columns={"ordonnance_id"}), @ORM\Index(name="IDX_1FBFB8D9AB0D61F7", columns={"medicament_id"})})
- * @ORM\Entity
+ *  @ORM\Entity(repositoryClass="App\Repository\PrescriptionRepository")
  */
 class Prescription
 {
@@ -44,9 +54,9 @@ class Prescription
 
     /**
      * @var \Ordonnance
-     * @ORM\ManyToOne(targetEntity="Ordonnance",cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Ordonnance")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="ordonnance_id", referencedColumnName="id",onDelete="CASCADE")
+     * @ORM\JoinColumn(name="ordonnance_id", referencedColumnName="id")
      * })
      */
     private $ordonnance;
@@ -54,9 +64,9 @@ class Prescription
     /**
      * @var \Medicament
      *
-     * @ORM\ManyToOne(targetEntity="Medicament",cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Medicament")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="medicament_id", referencedColumnName="id",onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="medicament_id", referencedColumnName="id")
      * })
      */
     private $medicament;

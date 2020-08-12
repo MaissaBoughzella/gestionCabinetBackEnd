@@ -28,6 +28,13 @@ class Consultation
      */
     private $date;
 
+   /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="heure", type="time", nullable=true)
+     */
+    private $heure;
+    
     /**
      * @var int|null
      *
@@ -36,9 +43,9 @@ class Consultation
     private $prix;
 
      /**
-    * @ORM\OneToOne(targetEntity="App\Entity\Rdv",cascade={"persist", "remove"})
+    * @ORM\OneToOne(targetEntity="App\Entity\Rdv")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="rdv_id", referencedColumnName="id",onDelete="CASCADE")
+     * @ORM\JoinColumn(name="rdv_id", referencedColumnName="id")
      * })
     */
     protected $rdv;
@@ -86,6 +93,18 @@ class Consultation
     public function setRdv(?Rdv $rdv): self
     {
         $this->rdv = $rdv;
+
+        return $this;
+    }
+
+    public function getHeure(): ?\DateTimeInterface
+    {
+        return $this->heure;
+    }
+
+    public function setHeure(?\DateTimeInterface $heure): self
+    {
+        $this->heure = $heure;
 
         return $this;
     }

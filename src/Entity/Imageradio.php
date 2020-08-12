@@ -38,9 +38,9 @@ class Imageradio
     /**
      * @var \Typeradio
      *
-     * @ORM\ManyToOne(targetEntity="Typeradio",cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Typeradio")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="TypeRadio_id", referencedColumnName="id",onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="TypeRadio_id", referencedColumnName="id")
      * })
      */
     private $typeradio;
@@ -48,9 +48,9 @@ class Imageradio
     /**
      * @var \Consultation
      *
-     * @ORM\ManyToOne(targetEntity="Consultation",cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Consultation")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Consultation_id", referencedColumnName="id",onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="Consultation_id", referencedColumnName="id")
      * })
      */
     private $consultation;

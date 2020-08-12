@@ -6,9 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Medecin
- * @ApiResource()
+* @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_userId"={
+ *          "method"="GET",
+ *          "path"="/medecins/getByUserId/{user_id}",
+ *          "controller"="App\Controller\MedecinController::class"
+ *      },
+ *   },
+ * )
  * @ORM\Table(name="medecin", indexes={@ORM\Index(name="fk_Medecin_Specialite1_idx", columns={"Specialite_id"})})
- * @ORM\Entity
+ *  @ORM\Entity(repositoryClass="App\Repository\MedecinRepository")
  */
 class Medecin 
 {

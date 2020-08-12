@@ -6,9 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Ordonnance
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_cons"={
+ *          "method"="GET",
+ *          "path"="/ordonnances/getByConsId/{cons}",
+ *          "controller"="App\Controller\OrdonnanceController::class"
+ *      },
+ *   },
+ * )
  * @ORM\Table(name="ordonnance")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\OrdonnanceRepository")
  */
 class Ordonnance
 {
@@ -28,13 +38,6 @@ class Ordonnance
      */
     private $date;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="heure", type="time", nullable=true)
-     */
-    private $heure;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -53,24 +56,13 @@ class Ordonnance
     }
 
     /**
-    * @ORM\OneToOne(targetEntity="App\Entity\Consultation",cascade={"persist", "remove"})
+    * @ORM\OneToOne(targetEntity="App\Entity\Consultation")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="consultation_id", referencedColumnName="id",onDelete="CASCADE")
+     * @ORM\JoinColumn(name="consultation_id", referencedColumnName="id")
      * })
     */
     protected $consultation;
 
-    public function getHeure(): ?\DateTimeInterface
-    {
-        return $this->heure;
-    }
-
-    public function setHeure(?\DateTimeInterface $heure): self
-    {
-        $this->heure = $heure;
-
-        return $this;
-    }
     public function __toString() 
     {
         return (string) $this->id; 
