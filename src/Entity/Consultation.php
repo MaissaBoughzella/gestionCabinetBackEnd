@@ -6,9 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Consultation
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_rdvId"={
+ *          "method"="GET",
+ *          "path"="/consultations/getByRdvId/{rdv_id}",
+ *          "controller"="App\Controller\ConsultationController::class"
+ *      },
+ *   },
+ * )
  * @ORM\Table(name="consultation")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ConsultationRepository")
  */
 class Consultation
 {

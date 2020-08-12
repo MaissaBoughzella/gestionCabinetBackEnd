@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Medecin
-* @ApiResource(
+ * @ApiResource(
  *      collectionOperations={
  *      "get"={},
  *      "post"={},
