@@ -7,9 +7,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 /**
  * Rdv
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_patient"={
+ *          "method"="GET",
+ *          "path"="/rdvs/getAllRdvsByPatientId/{patient}",
+ *          "controller"="App\Controller\RdvPatientController::class"
+ *      },
+ *      "get_by_medecin"={
+ *          "method"="GET",
+ *          "path"="/rdvs/getRdvsByMedecinId/{medecin}",
+ *          "controller"="App\Controller\RdvMedecinController::class"
+ *      },
+ *   },
+ * )
  * @ORM\Table(name="rdv")
- * @ORM\Entity
+ *  @ORM\Entity(repositoryClass="App\Repository\RdvRepository")
  */
 class Rdv
 {
