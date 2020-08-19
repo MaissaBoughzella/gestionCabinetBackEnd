@@ -16,6 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
  *          "path"="/secretaires/getByUserId/{user_id}",
  *          "controller"="App\Controller\SecretaireController::class"
  *      },
+ *       "get_by_medecin"={
+ *          "method"="GET",
+ *          "path"="/secretaires/getSecByMedecin/{medId}",
+ *          "controller"="App\Controller\SecretairesMedecinController::class"
+ *      },
  *   },
  * )
  * @ORM\Table(name="secretaire")

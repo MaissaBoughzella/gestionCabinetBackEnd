@@ -28,7 +28,16 @@ class SecretaireRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-
+    public function findByMedId($value)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.medecinId = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+   
     // /**
     //  * @return Secretaire[] Returns an array of Secretaire objects
     //  */
