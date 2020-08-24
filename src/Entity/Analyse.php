@@ -6,9 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Analyse
- *@ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_consId"={
+ *          "method"="GET",
+ *          "path"="/analyses/getByConsId/{cons_id}",
+ *          "controller"="App\Controller\AnalyseController::class"
+ *      },
+ *   },
+ * )
  * @ORM\Table(name="analyse", indexes={@ORM\Index(name="fk_Analyse_Consultation1_idx", columns={"Consultation_id"}), @ORM\Index(name="fk_Analyse_TypeAnalyse1_idx", columns={"TypeAnalyse_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AnalyseRepository")
  */
 class Analyse
 {

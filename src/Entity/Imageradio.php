@@ -6,9 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Imageradio
- * @ApiResource()
+* @ApiResource(
+ *      collectionOperations={
+ *      "get"={},
+ *      "post"={},
+ *      "get_by_consId"={
+ *          "method"="GET",
+ *          "path"="/imageradios/getByConsId/{cons_id}",
+ *          "controller"="App\Controller\RadioController::class"
+ *      },
+ *   },
+ * )
  * @ORM\Table(name="imageradio", uniqueConstraints={@ORM\UniqueConstraint(name="id_UNIQUE", columns={"id"})}, indexes={@ORM\Index(name="fk_ImageRadio_Consultation1_idx", columns={"Consultation_id"}), @ORM\Index(name="fk_ImageRadio_TypeRadio1_idx", columns={"TypeRadio_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ImageradioRepository")
  */
 class Imageradio
 {
