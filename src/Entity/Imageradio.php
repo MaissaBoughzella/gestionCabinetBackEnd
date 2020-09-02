@@ -48,9 +48,9 @@ class Imageradio
     /**
      * @var \Typeradio
      *
-     * @ORM\ManyToOne(targetEntity="Typeradio")
+     * @ORM\ManyToOne(targetEntity="Typeradio",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="TypeRadio_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="TypeRadio_id", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
     private $typeradio;

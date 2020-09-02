@@ -48,9 +48,9 @@ class Analyse
     /**
      * @var \Typeanalyse
      *
-     * @ORM\ManyToOne(targetEntity="Typeanalyse")
+     * @ORM\ManyToOne(targetEntity="Typeanalyse",cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="TypeAnalyse_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="TypeAnalyse_id", referencedColumnName="id",onDelete="CASCADE")
      * })
      */
     private $typeanalyse;
